@@ -47,7 +47,7 @@ function camposPreenchidosLogin(req, res, next) {
     }
 }
 
-// Middleware para verificar se todos os campos estão preenchidos na criação de recados
+// Middleware para verificar se todos os campos estão preenchidos na criação e atualização de recados
 function camposPreenchidosRecado(req, res, next) {
     const campo = req.body;
 
@@ -139,7 +139,7 @@ app.get("/usuarios/:id/recados", (req, res) => {
 })
 
 // Rota PUT para atualizar um recado a partir do ID de usuário e ID de recado
-app.put("/usuarios/:id/recados/:idrecado", (req, res) => {
+app.put("/usuarios/:id/recados/:idrecado", camposPreenchidosRecado, (req, res) => {
     const recadoAtualizado = req.body;
     const id = Number(req.params.id);
     const idRecado = Number(req.params.idrecado);
@@ -160,7 +160,7 @@ app.put("/usuarios/:id/recados/:idrecado", (req, res) => {
                 titulo: recadoAtualizado.titulo,
                 descricao: recadoAtualizado.descricao
             };
-        return res.status(200).json("Usuário atualizado com sucesso!");
+        return res.status(200).json("Recado atualizado com sucesso!");
 })
 
 // Rota DELETE para deletar um recado a partir do ID de usuário e ID de recado
