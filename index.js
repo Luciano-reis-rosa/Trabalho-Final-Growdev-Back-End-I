@@ -19,8 +19,23 @@ function verificaEmail(req, res, next) {
     }
 }
 
+// Middleware para verificar se todos os campos estão preenchidos no cadastro
+function camposPreenchidosCadastro(req, res, next) {
+    const campo = req.body;
+
+    if (!campo.nome) {
+        return res.status(400).json("É necessário informar o nome para o cadastro");
+    } else if (!campo.email) {
+        return res.status(400).json("É necessário informar o email para o cadastro");
+    } else if (!campo.senha) {
+        return res.status(400).json("É necessário informar a senha para o cadastro");
+    } else {
+        next();
+    }
+}
+
 // Rota POST para cadastrar usuário 
-app.post("/usuarios", verificaEmail, (req, res) => {
+app.post("/usuarios", verificaEmail, camposPreenchidosCadastro, (req, res) => {
     const usuario = req.body;
     const saltRounds = 10;
 
