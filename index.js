@@ -28,6 +28,25 @@ app.post("/usuarios", (req, res) => {
     });
 })
 
+// Rota POST para efetuar login 
+app.post("/usuarios/login", (req, res) => {
+    const login = req.body
+    const email = login.email;
+    const senha = login.senha;
+    const usuario = usuarios.find(usuario => usuario.email === email);
+
+    if (!usuario) {
+        return res.status(401).json("Por favor, digite um email válido");
+    }
+    bcrypt.compare(senha, usuario.senha, function (err, result) {
+        if (result) {
+            return res.status(200).json("Login efetuado! O seu ID para criar recados é: " + usuario.id);
+        } else {
+            return res.status(401).json("Senha inválida");
+        }
+    });
+})
+
 app.get('/', (req, res) => { return res.json("ok") });
 
 app.listen(1428, () => console.log("Servidor está rodando"));
