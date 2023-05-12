@@ -7,8 +7,20 @@ app.use(express.json());
 
 let usuarios = [];
 
+// Middleware para verificar se já existe um email igual no cadastro
+function verificaEmail(req, res, next) {
+    const email = req.body.email;
+    const existe = usuarios.some(usuario => usuario.email === email);
+
+    if (!existe) {
+        next();
+    } else {
+        return res.status(400).json("Por favor, informe outro email!")
+    }
+}
+
 // Rota POST para cadastrar usuário 
-app.post("/usuarios", (req, res) => {
+app.post("/usuarios", verificaEmail, (req, res) => {
     const usuario = req.body;
     const saltRounds = 10;
 
