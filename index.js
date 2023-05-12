@@ -65,6 +65,22 @@ app.post("/usuarios/:id/recados", (req, res) => {
     return res.status(201).json("Recado criado!");
 })
 
+// Rota GET para listar os recados de um usuário através de seu ID
+app.get("/usuarios/:id/recados", (req, res) => {
+    const id = Number(req.params.id);
+    const unicoId = Number(req.query.id);
+    const usuario = usuarios.find(usuario => usuario.id == id);
+
+    if (!usuario) {
+        return res.status(401).json("Por favor, informe um ID válido");
+    }
+    if (unicoId) {
+        const unicoRecado = usuario.recados.find(recado => recado.id == unicoId);
+        return res.status(200).json(unicoRecado);
+    }
+    return res.status(200).json(usuario.recados);
+})
+
 app.get('/', (req, res) => { return res.json("ok") });
 
 app.listen(1428, () => console.log("Servidor está rodando"));
