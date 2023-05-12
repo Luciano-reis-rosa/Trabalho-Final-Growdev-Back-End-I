@@ -47,6 +47,24 @@ app.post("/usuarios/login", (req, res) => {
     });
 })
 
+// Rota POST para um usuário criar recados usando seu ID
+app.post("/usuarios/:id/recados", (req, res) => {
+    const novoRecado = req.body
+    const id = Number(req.params.id);
+    const usuario = usuarios.find(usuario => usuario.id == id);
+
+    if (!usuario) {
+        return res.status(401).json("Por favor, digite um ID válido");
+    }
+
+    usuario.recados.push({
+        id: Math.floor(Math.random()*1000),
+        titulo: novoRecado.titulo, 
+        descricao: novoRecado.descricao, 
+    });
+    return res.status(201).json("Recado criado!");
+})
+
 app.get('/', (req, res) => { return res.json("ok") });
 
 app.listen(1428, () => console.log("Servidor está rodando"));
