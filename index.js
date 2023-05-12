@@ -68,7 +68,7 @@ app.post("/usuarios", verificaEmail, camposPreenchidosCadastro, (req, res) => {
     bcrypt.hash(usuario.senha, saltRounds, function (err, hash) {
         if (hash) {
             usuarios.push({
-                id: usuarios.length,
+                id: Math.floor(Math.random()*1000),
                 nome: usuario.nome,
                 email: usuario.email,
                 senha: hash,
@@ -107,7 +107,7 @@ app.post("/usuarios/:id/recados", camposPreenchidosRecado, (req, res) => {
     const usuario = usuarios.find(usuario => usuario.id == id);
 
     if (!usuario) {
-        return res.status(401).json("Por favor, digite um ID válido");
+        return res.status(400).json("Por favor, informe um ID válido");
     }
 
     usuario.recados.push({
@@ -115,7 +115,7 @@ app.post("/usuarios/:id/recados", camposPreenchidosRecado, (req, res) => {
         titulo: novoRecado.titulo, 
         descricao: novoRecado.descricao, 
     });
-    return res.status(201).json("Recado criado!");
+    return res.status(201).json("Recado criado com sucesso!");
 })
 
 // Rota GET para listar os recados de um usuário através de seu ID
@@ -125,7 +125,7 @@ app.get("/usuarios/:id/recados", (req, res) => {
     const usuario = usuarios.find(usuario => usuario.id == id);
 
     if (!usuario) {
-        return res.status(401).json("Por favor, informe um ID válido");
+        return res.status(400).json("Por favor, informe um ID válido");
     }
     if (unicoId) {
         const unicoRecado = usuario.recados.find(recado => recado.id == unicoId);
@@ -142,13 +142,13 @@ app.put("/usuarios/:id/recados/:idrecado", (req, res) => {
     const usuario = usuarios.find(usuario => usuario.id == id);
 
     if (!usuario) {
-        return res.status(402).json("Por favor, digite um ID de usuário válido");
+        return res.status(400).json("Por favor, informe um ID de usuário válido");
     }
 
     const indexRecado = usuario.recados.findIndex(recado => recado.id == idRecado);
 
     if (indexRecado == -1) {
-        return res.status(401).json("Por favor, digite um ID de recado válido");
+        return res.status(400).json("Por favor, informe um ID de recado válido");
     }
 
             usuario.recados[indexRecado] = {
@@ -166,13 +166,13 @@ app.delete("/usuarios/:id/recados/:idrecado", (req, res) => {
     const usuario = usuarios.find(usuario => usuario.id == id);
 
     if (!usuario) {
-        return res.status(400).json("Por favor, digite um ID de usuário válido");
+        return res.status(400).json("Por favor, informe um ID de usuário válido");
     }
 
     const indexRecado = usuario.recados.findIndex(recado => recado.id == idRecado);
 
     if (indexRecado == -1) {
-        return res.status(400).json("Por favor, digite um ID de recado válido");
+        return res.status(400).json("Por favor, informe um ID de recado válido");
     }
 
     usuario.recados.splice(indexRecado, 1);
