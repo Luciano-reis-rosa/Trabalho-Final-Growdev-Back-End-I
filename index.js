@@ -47,6 +47,19 @@ function camposPreenchidosLogin(req, res, next) {
     }
 }
 
+// Middleware para verificar se todos os campos estão preenchidos na criação de recados
+function camposPreenchidosRecado(req, res, next) {
+    const campo = req.body;
+
+    if (!campo.titulo) {
+        return res.status(400).json("É necessário informar o título do recado para criação");
+    } else if (!campo.descricao) {
+        return res.status(400).json("É necessário informar a descrição da recado para criação");
+    } else {
+        next();
+    }
+}
+
 // Rota POST para cadastrar usuário 
 app.post("/usuarios", verificaEmail, camposPreenchidosCadastro, (req, res) => {
     const usuario = req.body;
@@ -88,7 +101,7 @@ app.post("/usuarios/login", camposPreenchidosLogin, (req, res) => {
 })
 
 // Rota POST para um usuário criar recados usando seu ID
-app.post("/usuarios/:id/recados", (req, res) => {
+app.post("/usuarios/:id/recados", camposPreenchidosRecado, (req, res) => {
     const novoRecado = req.body
     const id = Number(req.params.id);
     const usuario = usuarios.find(usuario => usuario.id == id);
