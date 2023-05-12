@@ -106,6 +106,26 @@ app.put("/usuarios/:id/recados/:idrecado", (req, res) => {
         return res.status(200).json("Usuário atualizado com sucesso!");
 })
 
+// Rota DELETE para deletar um recado a partir do ID de usuário e ID de recado
+app.delete("/usuarios/:id/recados/:idrecado", (req, res) => {
+    const id = Number(req.params.id);
+    const idRecado = Number(req.params.idrecado);
+    const usuario = usuarios.find(usuario => usuario.id == id);
+
+    if (!usuario) {
+        return res.status(400).json("Por favor, digite um ID de usuário válido");
+    }
+
+    const indexRecado = usuario.recados.findIndex(recado => recado.id == idRecado);
+
+    if (indexRecado == -1) {
+        return res.status(400).json("Por favor, digite um ID de recado válido");
+    }
+
+    usuario.recados.splice(indexRecado, 1);
+    return res.status(200).json("Recado deletado com sucesso!");
+})
+
 app.get('/', (req, res) => { return res.json("ok") });
 
 app.listen(1428, () => console.log("Servidor está rodando"));
