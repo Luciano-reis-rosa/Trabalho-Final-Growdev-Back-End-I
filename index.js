@@ -107,7 +107,7 @@ app.post("/usuarios/:id/recados", camposPreenchidosRecado, (req, res) => {
     const usuario = usuarios.find(usuario => usuario.id == id);
 
     if (!usuario) {
-        return res.status(400).json("Por favor, informe um ID válido");
+        return res.status(400).json("Por favor, informe um ID de usuário válido");
     }
 
     usuario.recados.push({
@@ -125,11 +125,15 @@ app.get("/usuarios/:id/recados", (req, res) => {
     const usuario = usuarios.find(usuario => usuario.id == id);
 
     if (!usuario) {
-        return res.status(400).json("Por favor, informe um ID válido");
+        return res.status(400).json("Por favor, informe um ID de usuário válido");
     }
     if (unicoId) {
         const unicoRecado = usuario.recados.find(recado => recado.id == unicoId);
-        return res.status(200).json(unicoRecado);
+        if (!unicoRecado) {
+            return res.status(400).json("Por favor, informe um ID de recado válido");
+        } else {
+            return res.status(200).json(unicoRecado);
+        }
     }
     return res.status(200).json(usuario.recados);
 })
