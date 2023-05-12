@@ -81,6 +81,31 @@ app.get("/usuarios/:id/recados", (req, res) => {
     return res.status(200).json(usuario.recados);
 })
 
+// Rota PUT para atualizar um recado a partir do ID de usuário e ID de recado
+app.put("/usuarios/:id/recados/:idrecado", (req, res) => {
+    const recadoAtualizado = req.body;
+    const id = Number(req.params.id);
+    const idRecado = Number(req.params.idrecado);
+    const usuario = usuarios.find(usuario => usuario.id == id);
+
+    if (!usuario) {
+        return res.status(402).json("Por favor, digite um ID de usuário válido");
+    }
+
+    const indexRecado = usuario.recados.findIndex(recado => recado.id == idRecado);
+
+    if (indexRecado == -1) {
+        return res.status(401).json("Por favor, digite um ID de recado válido");
+    }
+
+            usuario.recados[indexRecado] = {
+                id: idRecado,
+                titulo: recadoAtualizado.titulo,
+                descricao: recadoAtualizado.descricao
+            };
+        return res.status(200).json("Usuário atualizado com sucesso!");
+})
+
 app.get('/', (req, res) => { return res.json("ok") });
 
 app.listen(1428, () => console.log("Servidor está rodando"));
