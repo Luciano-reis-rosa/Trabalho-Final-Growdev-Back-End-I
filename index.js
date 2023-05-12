@@ -34,6 +34,19 @@ function camposPreenchidosCadastro(req, res, next) {
     }
 }
 
+// Middleware para verificar se todos os campos estão preenchidos no login
+function camposPreenchidosLogin(req, res, next) {
+    const campo = req.body;
+
+    if (!campo.email) {
+        return res.status(400).json("É necessário informar o email para o login");
+    } else if (!campo.senha) {
+        return res.status(400).json("É necessário informar a senha para o login");
+    } else {
+        next();
+    }
+}
+
 // Rota POST para cadastrar usuário 
 app.post("/usuarios", verificaEmail, camposPreenchidosCadastro, (req, res) => {
     const usuario = req.body;
@@ -56,7 +69,7 @@ app.post("/usuarios", verificaEmail, camposPreenchidosCadastro, (req, res) => {
 })
 
 // Rota POST para efetuar login 
-app.post("/usuarios/login", (req, res) => {
+app.post("/usuarios/login", camposPreenchidosLogin, (req, res) => {
     const login = req.body
     const email = login.email;
     const senha = login.senha;
