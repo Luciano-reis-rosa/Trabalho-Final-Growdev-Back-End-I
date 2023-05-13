@@ -12,7 +12,7 @@ Acesse a aplicação no endereço "localhost:1428".
 
 Através da rota "/usuarios", informe nome, email e senha. 
 
-![Ex Rota POST cadastro de usuários](https://github.com/LucianReal/Trabalho-Final-Growdev-Back-End-I/assets/107893316/26c903b9-a7f2-4183-9e3a-ceec6df9a408)
+![POST Cadastro](https://github.com/LucianReal/Trabalho-Final-Growdev-Back-End-I/assets/107893316/49084ae3-7e2b-4df5-aa4f-6b9d195306d0)
 
 ## Rota POST para login de usuário:
 
