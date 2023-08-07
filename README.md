@@ -4,7 +4,7 @@ Este projeto consiste em uma aplicação desenvolvida em Node.js com o uso do se
 
 Este trabalho foi desenvolvido para a conclusão do módulo Back-end I do Programa Starter Web Full Stack Developer - Growdev.
 
-# Utilizando as rotas no Posteman e no Render
+# Utilizando as rotas no Postman e no Render
 
 Acesse a aplicação no endereço "localhost:1428" ou no endereço "https://projeto-final-back-end-i-crud-de-recados.onrender.com" no Posteman para utilizar as rotas exemplificadas abaixo.
 
